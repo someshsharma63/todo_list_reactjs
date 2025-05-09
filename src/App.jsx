@@ -27,12 +27,12 @@ function App() {
       setIsEditing(false);
       setEditId(null);
     } else {
-      const obj = { id: Date.now(), tasks: inp };
+      const obj = { id: Date.now(), tasks: inp,completed:false };
       settask([...tasks, obj]);
     }
     setinp('');
   }
-  
+
   function deleteTask(e,id)
   {
     const indexToDelete=tasks.findIndex((obj)=>
@@ -53,7 +53,18 @@ function App() {
     setIsEditing(true);
     setEditId(id);
   }
+
+  function markAsComplete(e,id)
+  {
+    settask(
+      tasks.map((obj)=>
+        {
+          return obj.id===id ? {...obj,completed: ! obj.completed}:obj
+        })
+    ); 
+  }
   
+  console.log(tasks);
 
   return (
     <>
@@ -75,11 +86,18 @@ function App() {
       <div className='resultlist'>
         <ul>
           {tasks.map((obj) => (
-            <li key={obj.id}>
+            <li key={obj.id} className={obj.completed ? "completed" : ""}>
               <span>
                 <MdDelete onClick={(e) => deleteTask(e, obj.id)} />
-                <MdModeEditOutline onClick={(e) => editTask(e, obj.id)} />
-                <FaCheck />
+               
+               {!obj.completed && <MdModeEditOutline onClick={(e) => editTask(e, obj.id)} 
+                
+                />}
+                {
+                  !obj.completed &&      <FaCheck onClick={(e)=>{
+                    markAsComplete(e,obj.id)
+                  }}/>
+                }
                 {obj.tasks}
               </span>
             </li>

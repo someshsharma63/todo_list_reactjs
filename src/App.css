@@ -47,3 +47,11 @@ button {
   margin: 20px 0;
   list-style: none;
 }
+.completed
+{
+  opacity: 0.5;
+}
+.completed span
+{
+  opacity: 0.5;
+}
